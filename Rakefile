@@ -4,7 +4,7 @@ require 'rake'
 require 'echoe'
 
 Echoe.new('spark', '0.0.1') do |p|
-  p.description    = "Generate HTML project"
+  p.description    = "HTML project generator"
   p.url            = "http://github.com/webandy/spark"
   p.author         = "Andy Atkinson"
   p.email          = "andy@webandy.com"
