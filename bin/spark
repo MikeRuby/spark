@@ -1,0 +1,83 @@
+#!/usr/bin/env ruby 
+
+# == Usage 
+#   spark [options] directory_name
+#
+# == Copyright
+#   Copyright (c) 2010 Andy Atkinson. Licensed under the MIT License:
+#   http://www.opensource.org/licenses/mit-license.php
+require 'optparse'
+require 'fileutils'
+require 'find'
+
+class App
+  VERSION = '0.0.1'
+  attr_reader :options
+
+  def initialize(arguments, stdin)
+    @arguments = arguments
+    @stdin = stdin
+  end
+  
+  def run
+    if parsed_options?
+      generate_files
+    else
+      output_usage
+    end
+  end
+  
+  protected
+    def output_usage
+      puts "Usage: spark [options] directory_name"
+    end
+        
+    def parsed_options?
+      # Specify options
+      opts = OptionParser.new 
+      opts.on('-v', '--version')    { output_version; exit 0 }
+      opts.parse!(@arguments) rescue return false
+
+      process_options
+      true
+    end
+    
+    def process_options
+      if @arguments.empty?
+        output_usage; exit 0
+      end
+    end
+    
+    def output_version
+      puts "#{File.basename(__FILE__)} version #{VERSION}"
+    end
+    
+    def generate_files
+      directory = @arguments.first
+      # create the directories
+      FileUtils.mkdir_p "#{directory}/css"
+      FileUtils.mkdir_p "#{directory}/js"
+      # copy css files into position
+      Dir.glob(File.join(File.dirname(__FILE__), '..', 'lib', 'files_to_copy', 'css', '*.css')) {|file|
+        FileUtils.cp(file, [directory, 'css'].join('/'))
+      }
+      # copy JS files into position
+      Dir.glob(File.join(File.dirname(__FILE__), '..', 'lib', 'files_to_copy', 'js', '*.js')) {|file|
+        FileUtils.cp(file, [directory, 'js'].join('/'))
+      }
+      FileUtils.cp(File.join(File.dirname(__FILE__), '..', 'lib', 'files_to_copy', 'index.html'), directory)
+      
+      if File.directory?(directory)
+        puts "Successfully created the following:"
+        Find.find(directory) do |file|
+          puts file
+        end
+        
+      end
+    end
+
+end
+
+# Create and run the application
+app = App.new(ARGV, STDIN)
+app.run
