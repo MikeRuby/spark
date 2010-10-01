@@ -10,7 +10,7 @@ Feature: running commands
 
   Scenario: getting the version of spark
     When I run "spark -v"
-    Then the stdout should contain "spark version 0.0.1"
+    Then the output should contain exactly "spark version 0.0.2\n"
   
   Scenario: generating a project
     When I run "spark myproject"
