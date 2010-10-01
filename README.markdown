@@ -35,7 +35,11 @@ There aren't any options at this point, but the plan is to add configuration opt
 
 To verify spark is installed, type `spark -v` which should produce:
 
-    spark version 0.0.1
+    spark version 0.0.3
+    
+Testing
+===
+If you want to develop for spark, please install the development dependencies. Spark is tested using Cucumber via the aruba gem. Please add tests for any new features added to spark.
 
 Why?
 ===

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('spark', '0.0.2') do |p|
+Echoe.new('spark', '0.0.3') do |p|
   p.description    = "HTML project generator"
   p.url            = "http://github.com/webandy/spark"
   p.author         = "Andy Atkinson"
